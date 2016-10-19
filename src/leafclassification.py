@@ -83,7 +83,7 @@ yPred = model.predict_proba(test)
 
 yPred = pd.DataFrame(yPred,index=index,columns=leaf99.LABELS)
 
-fp = open('submission_nn_10_16-5.csv','w')
+fp = open('../submissions/submission_nn_10_16-5.csv','w')
 fp.write(yPred.to_csv())
 
 plt.show()

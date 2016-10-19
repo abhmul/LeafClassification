@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1249b2dc-b92d-41c4-bbe9-a577c9b2b8fd" name="Default" comment="" />
+    <list default="true" id="1249b2dc-b92d-41c4-bbe9-a577c9b2b8fd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-3.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-4.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-5.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_19-5.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_19-5_ceil.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_kernel.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_kernel_ceil.csv" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/combined.py" afterPath="$PROJECT_DIR$/src/combined.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/keras_conv.py" afterPath="$PROJECT_DIR$/src/keras_conv.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/leafclassification.py" afterPath="$PROJECT_DIR$/src/leafclassification.py" />
+    </list>
     <ignored path="LeafClassication.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -26,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="leafclassification.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="leafclassification.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/leafclassification.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="606">
-              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="86" selection-end-column="24" />
+            <state relative-caret-position="433">
+              <caret line="85" column="26" selection-start-line="85" selection-start-column="26" selection-end-line="85" selection-end-column="26" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -41,7 +56,7 @@
       <file leaf-file-name="leaf99.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/leaf99.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
+            <state relative-caret-position="918">
               <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
@@ -53,8 +68,8 @@
       <file leaf-file-name="keras_conv.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/keras_conv.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="128" selection-end-column="24" />
+            <state relative-caret-position="451">
+              <caret line="127" column="26" selection-start-line="127" selection-start-column="26" selection-end-line="127" selection-end-column="26" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -62,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="combined.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="combined.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/combined.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="732">
-              <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
+            <state relative-caret-position="203">
+              <caret line="139" column="26" selection-start-line="139" selection-start-column="26" selection-end-line="139" selection-end-column="26" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -77,7 +92,7 @@
       <file leaf-file-name="training.py" pinned="false" current-in-tab="false">
         <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/engine/training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6864">
+            <state relative-caret-position="20448">
               <caret line="1144" column="8" selection-start-line="1144" selection-start-column="8" selection-end-line="1144" selection-end-column="8" />
               <folding />
             </state>
@@ -115,14 +130,17 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/split data.py" />
-        <option value="$PROJECT_DIR$/src/leafclassification.py" />
         <option value="$PROJECT_DIR$/src/leaf99.py" />
-        <option value="$PROJECT_DIR$/src/keras_conv.py" />
         <option value="$PROJECT_DIR$/src/combined.py" />
+        <option value="$PROJECT_DIR$/src/keras_conv.py" />
+        <option value="$PROJECT_DIR$/src/leafclassification.py" />
       </list>
     </option>
   </component>
@@ -161,6 +179,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -196,7 +215,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -484,6 +502,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="1249b2dc-b92d-41c4-bbe9-a577c9b2b8fd" name="Default" comment="" />
@@ -495,14 +516,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1914" height="1054" extended-state="1" />
+    <frame x="0" y="0" width="1914" height="1054" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26045015" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26312968" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32985386" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295099" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -558,6 +579,72 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/leafclassification.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1386">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="86" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/leaf99.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/keras_conv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1602">
+          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="128" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/combined.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/engine/training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20592">
+          <caret line="1144" column="8" selection-start-line="1144" selection-start-column="8" selection-end-line="1144" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/split data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../BoschProductionLine/src/lets_try_straight_reading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1512">
+          <caret line="100" column="4" selection-start-line="100" selection-start-column="4" selection-end-line="106" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/leafclassification.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
           <caret line="49" column="4" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="57" />
           <folding>
@@ -580,7 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32742">
           <caret line="1819" column="28" selection-start-line="1819" selection-start-column="28" selection-end-line="1819" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -636,7 +722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32346">
           <caret line="1819" column="28" selection-start-line="1819" selection-start-column="28" selection-end-line="1819" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -689,7 +774,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32346">
           <caret line="1819" column="28" selection-start-line="1819" selection-start-column="28" selection-end-line="1819" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -749,7 +833,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32346">
           <caret line="1819" column="28" selection-start-line="1819" selection-start-column="28" selection-end-line="1819" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -845,24 +928,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1819" column="28" selection-start-line="1819" selection-start-column="28" selection-end-line="1819" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/leaf99.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
+        <state relative-caret-position="918">
           <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/keras_conv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="128" selection-end-column="24" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
@@ -871,26 +943,36 @@
     </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/engine/training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6864">
+        <state relative-caret-position="20448">
           <caret line="1144" column="8" selection-start-line="1144" selection-start-column="8" selection-end-line="1144" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/leafclassification.py">
+    <entry file="file://$PROJECT_DIR$/src/combined.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="606">
-          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="86" selection-end-column="24" />
+        <state relative-caret-position="203">
+          <caret line="139" column="26" selection-start-line="139" selection-start-column="26" selection-end-line="139" selection-end-column="26" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/combined.py">
+    <entry file="file://$PROJECT_DIR$/src/keras_conv.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
+        <state relative-caret-position="451">
+          <caret line="127" column="26" selection-start-line="127" selection-start-column="26" selection-end-line="127" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/leafclassification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="85" column="26" selection-start-line="85" selection-start-column="26" selection-end-line="85" selection-end-column="26" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>

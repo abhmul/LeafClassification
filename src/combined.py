@@ -137,14 +137,14 @@ yPred_proba = model.predict([X_img_te, test])
 
 yPred = pd.DataFrame(yPred_proba,index=index,columns=leaf99.LABELS)
 
-fp = open('submission_nn_10_19-1.csv','w')
+fp = open('../submissions/submission_nn_10_19-1.csv','w')
 fp.write(yPred.to_csv())
 
 yPred_r = (yPred_proba >= np.vstack([np.max(yPred_proba, axis=1)]*yPred_proba.shape[1]).T).astype(float)
 
 yPred = pd.DataFrame(yPred_r,index=index,columns=leaf99.LABELS)
 
-fp = open('submission_nn_10_19-5-1_ceil.csv','w')
+fp = open('../submissions/submission_nn_10_19-5-1_ceil.csv','w')
 fp.write(yPred.to_csv())
 
 plt.plot(history.history['val_loss'],'o-')

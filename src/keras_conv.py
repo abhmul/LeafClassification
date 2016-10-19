@@ -118,14 +118,14 @@ yPred_proba = model.predict_proba(test)
 
 yPred = pd.DataFrame(yPred_proba,index=index,columns=leaf99.LABELS)
 
-fp = open('submission_nn_10_19-5.csv','w')
+fp = open('../submissions/submission_nn_10_19-5.csv','w')
 fp.write(yPred.to_csv())
 
 yPred_r = np.around(yPred_proba)
 
 yPred = pd.DataFrame(yPred_r,index=index,columns=leaf99.LABELS)
 
-fp = open('submission_nn_10_19-5_ceil.csv','w')
+fp = open('../submissions/submission_nn_10_19-5_ceil.csv','w')
 fp.write(yPred.to_csv())
 
 
