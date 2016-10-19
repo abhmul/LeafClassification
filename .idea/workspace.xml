@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1249b2dc-b92d-41c4-bbe9-a577c9b2b8fd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-2.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-3.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-4.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16-5.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_16.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_19-5.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_10_19-5_ceil.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_kernel.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/submission_nn_kernel_ceil.csv" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_16-2.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_16-3.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_16-4.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_16-5.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_16.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_19-5.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_10_19-5_ceil.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_kernel.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/submissions/submission_nn_kernel_ceil.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/combined.py" afterPath="$PROJECT_DIR$/src/combined.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/keras_conv.py" afterPath="$PROJECT_DIR$/src/keras_conv.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/leafclassification.py" afterPath="$PROJECT_DIR$/src/leafclassification.py" />
     </list>
     <ignored path="LeafClassication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -195,6 +191,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="LeafClassication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LeafClassication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LeafClassication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="submissions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -513,13 +523,21 @@
       <option name="presentableId" value="Default" />
       <updated>1476567843249</updated>
     </task>
+    <task id="LOCAL-00001" summary="Moved submissions to a seperate folder">
+      <created>1476889085292</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1476889085292</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1914" height="1054" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26312968" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26312968" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -569,6 +587,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Moved submissions to a seperate folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved submissions to a seperate folder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
