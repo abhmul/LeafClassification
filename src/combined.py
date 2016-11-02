@@ -4,15 +4,7 @@ import os
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
-
-## Importing sklearn libraries
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.cross_validation import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import log_loss
 
 ## Keras Libraries for Neural Networks
 
@@ -24,8 +16,8 @@ from keras.callbacks import ModelCheckpoint
 
 import leaf99
 
-# seed = 7
-# np.random.seed(seed)
+seed = 7
+np.random.seed(seed)
 
 
 class ImageDataGenerator2(ImageDataGenerator):
