@@ -16,15 +16,16 @@ from sklearn.metrics import log_loss
 
 ## Keras Libraries for Neural Networks
 
-from keras.models import Sequential, Model
+from keras.models import Sequential, Model, load_model
 from keras.layers import Dense,Dropout,Activation, Convolution2D, MaxPooling2D, Flatten, Input, merge
 from keras.utils.np_utils import to_categorical
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img, NumpyArrayIterator
+from keras.callbacks import ModelCheckpoint
 
 import leaf99
 
-seed = 7
-np.random.seed(seed)
+# seed = 7
+# np.random.seed(seed)
 
 
 class ImageDataGenerator2(ImageDataGenerator):
@@ -78,11 +79,11 @@ print(np.max(X_img_tr), np.max(X_img_val))
 
 imgen = ImageDataGenerator2(
     # rescale=1./255,
-    rotation_range=20,
+    rotation_range=30,
     # width_shift_range=0.2,
     # height_shift_range=0.2,
     # shear_range=0.2,
-    zoom_range=0.2,
+    zoom_range=0.3,
     horizontal_flip=True,
     vertical_flip=True,
     fill_mode='nearest')
@@ -96,6 +97,10 @@ def combined_model():
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
     x = (Convolution2D(50, 5, 5, border_mode='same'))(x)
+    x = (Activation('relu'))(x)
+    x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
+
+    x = (Convolution2D(100, 5, 5, border_mode='same'))(x)
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
@@ -127,7 +132,15 @@ def combined_generator(imgen, X):
 
 
 model = combined_model()
-history = model.fit_generator(combined_generator(imgen_train, X_num_tr), samples_per_epoch=693, nb_epoch=97, validation_data=([X_img_val, X_num_val], y_val), nb_val_samples=297, verbose=1)
+# model = load_model('weights.02-0.00.hdf5')
+history = model.fit_generator(combined_generator(imgen_train, X_num_tr),
+                              samples_per_epoch=50*891,
+                              nb_epoch=10,
+                              validation_data=([X_img_val, X_num_val], y_val),
+                              nb_val_samples=99,
+                              verbose=1,
+                              callbacks=[ModelCheckpoint('../models/3combined_weights.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto')])
+
 
 index, test, X_img_te = leaf99.load_test_data()
 
@@ -137,20 +150,20 @@ yPred_proba = model.predict([X_img_te, test])
 
 yPred = pd.DataFrame(yPred_proba,index=index,columns=leaf99.LABELS)
 
-fp = open('../submissions/submission_nn_10_19-1.csv','w')
+fp = open('../submissions/submission_nn_10_21-1.csv','w')
 fp.write(yPred.to_csv())
 
 yPred_r = (yPred_proba >= np.vstack([np.max(yPred_proba, axis=1)]*yPred_proba.shape[1]).T).astype(float)
 
 yPred = pd.DataFrame(yPred_r,index=index,columns=leaf99.LABELS)
 
-fp = open('../submissions/submission_nn_10_19-5-1_ceil.csv','w')
+fp = open('../submissions/submission_nn_10_21-1_ceil.csv','w')
 fp.write(yPred.to_csv())
 
-plt.plot(history.history['val_loss'],'o-')
-plt.plot(history.history['loss'],'o-')
-plt.xlabel('Number of Iterations')
-plt.ylabel('Categorical Crossentropy')
-plt.title('Train Error vs Number of Iterations')
-
-plt.show()
+# plt.plot(history.history['val_loss'],'o-')
+# plt.plot(history.history['loss'],'o-')
+# plt.xlabel('Number of Iterations')
+# plt.ylabel('Categorical Crossentropy')
+# plt.title('Train Error vs Number of Iterations')
+#
+# plt.show()

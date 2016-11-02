@@ -60,7 +60,7 @@ def load_image_data(ids, max_dim=96, center=True):
     return np.around(X / 255.0)
 
 
-def load_train_data(split=.7, random_state=42):
+def load_train_data(split=.9, random_state=42):
     ID, X_num_tr, y = load_numeric_training()
     X_img_tr = load_image_data(ID)
     X_num_tr, X_num_val, X_img_tr, X_img_val, y_tr, y_val = train_test_split(X_num_tr, X_img_tr, y, train_size=split, random_state=random_state)
