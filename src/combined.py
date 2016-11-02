@@ -79,7 +79,7 @@ print(np.max(X_img_tr), np.max(X_img_val))
 
 imgen = ImageDataGenerator2(
     # rescale=1./255,
-    rotation_range=30,
+    rotation_range=90,
     # width_shift_range=0.2,
     # height_shift_range=0.2,
     # shear_range=0.2,
@@ -88,6 +88,7 @@ imgen = ImageDataGenerator2(
     vertical_flip=True,
     fill_mode='nearest')
 imgen_train = imgen.flow(X_img_tr, y_tr)
+
 
 def combined_model():
 
@@ -120,6 +121,40 @@ def combined_model():
     return model
 
 
+def deeper_combined():
+
+    image = Input(shape=(1, 96, 96), name='image')
+    x = Convolution2D(6, 5, 5, input_shape=(1, 96, 96), border_mode='same')(image)
+    x = (Activation('relu'))(x)
+    x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
+
+    x = (Convolution2D(16, 5, 5, border_mode='same'))(x)
+    x = (Activation('relu'))(x)
+    x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
+
+    x = (Convolution2D(32, 5, 5, border_mode='same'))(x)
+    x = (Activation('relu'))(x)
+    x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
+
+    x = (Convolution2D(64, 5, 5, border_mode='same'))(x)
+    x = (Activation('relu'))(x)
+    x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
+
+    x = Flatten()(x)
+    numerical = Input(shape=(192,), name='numerical')
+    concatenated = merge([x, numerical], mode='concat')
+
+    x = Dense(100, activation='relu')(concatenated)
+    x = Dropout(.5)(x)
+
+    out = Dense(99, activation='softmax')(x)
+
+    model = Model(input=[image, numerical], output=out)
+
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
+    return model
+
 
 def combined_generator(imgen, X):
     while True:
@@ -131,7 +166,7 @@ def combined_generator(imgen, X):
             yield [batch_img, x], batch_y
 
 
-model = combined_model()
+model = deeper_combined()
 # model = load_model('weights.02-0.00.hdf5')
 history = model.fit_generator(combined_generator(imgen_train, X_num_tr),
                               samples_per_epoch=50*891,
@@ -139,7 +174,7 @@ history = model.fit_generator(combined_generator(imgen_train, X_num_tr),
                               validation_data=([X_img_val, X_num_val], y_val),
                               nb_val_samples=99,
                               verbose=1,
-                              callbacks=[ModelCheckpoint('../models/3combined_weights.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto')])
+                              callbacks=[ModelCheckpoint('../models/deep_combined_model.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto')])
 
 
 index, test, X_img_te = leaf99.load_test_data()
@@ -150,14 +185,14 @@ yPred_proba = model.predict([X_img_te, test])
 
 yPred = pd.DataFrame(yPred_proba,index=index,columns=leaf99.LABELS)
 
-fp = open('../submissions/submission_nn_10_21-1.csv','w')
+fp = open('../submissions/submission_nn_11_2-1.csv','w')
 fp.write(yPred.to_csv())
 
 yPred_r = (yPred_proba >= np.vstack([np.max(yPred_proba, axis=1)]*yPred_proba.shape[1]).T).astype(float)
 
 yPred = pd.DataFrame(yPred_r,index=index,columns=leaf99.LABELS)
 
-fp = open('../submissions/submission_nn_10_21-1_ceil.csv','w')
+fp = open('../submissions/submission_nn_11_2-1_ceil.csv','w')
 fp.write(yPred.to_csv())
 
 # plt.plot(history.history['val_loss'],'o-')
