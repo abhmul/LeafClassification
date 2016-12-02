@@ -9,7 +9,7 @@ import pandas as pd
 ## Keras Libraries for Neural Networks
 
 from keras.models import Sequential, Model, load_model
-from keras.layers import Dense,Dropout,Activation, Convolution2D, MaxPooling2D, Flatten, Input, merge
+from keras.layers import Dense,Dropout,Activation, Convolution2D, MaxPooling2D, Flatten, Input, merge, BatchNormalization
 from keras.utils.np_utils import to_categorical
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img, NumpyArrayIterator
 from keras.callbacks import ModelCheckpoint
@@ -71,7 +71,7 @@ print(np.max(X_img_tr), np.max(X_img_val))
 
 imgen = ImageDataGenerator2(
     # rescale=1./255,
-    rotation_range=90,
+    rotation_range=20,
     # width_shift_range=0.2,
     # height_shift_range=0.2,
     # shear_range=0.2,
@@ -85,15 +85,12 @@ imgen_train = imgen.flow(X_img_tr, y_tr)
 def combined_model():
 
     image = Input(shape=(1, 96, 96), name='image')
-    x = Convolution2D(20, 5, 5, input_shape=(1, 96, 96), border_mode='same')(image)
+    x = BatchNormalization()(image)
+    x = Convolution2D(20, 5, 5, input_shape=(1, 96, 96), border_mode='same')(x)
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
     x = (Convolution2D(50, 5, 5, border_mode='same'))(x)
-    x = (Activation('relu'))(x)
-    x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
-
-    x = (Convolution2D(100, 5, 5, border_mode='same'))(x)
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
@@ -116,7 +113,8 @@ def combined_model():
 def deeper_combined():
 
     image = Input(shape=(1, 96, 96), name='image')
-    x = Convolution2D(6, 5, 5, input_shape=(1, 96, 96), border_mode='same')(image)
+    x = BatchNormalization()(image)
+    x = Convolution2D(6, 5, 5, input_shape=(1, 96, 96), border_mode='same')(x)
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
@@ -124,11 +122,11 @@ def deeper_combined():
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
-    x = (Convolution2D(32, 5, 5, border_mode='same'))(x)
+    x = (Convolution2D(16, 5, 5, border_mode='same'))(x)
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
-
-    x = (Convolution2D(64, 5, 5, border_mode='same'))(x)
+    #
+    x = (Convolution2D(32, 5, 5, border_mode='same'))(x)
     x = (Activation('relu'))(x)
     x = (MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))(x)
 
@@ -159,7 +157,7 @@ def combined_generator(imgen, X):
 
 
 model = deeper_combined()
-# model = load_model('weights.02-0.00.hdf5')
+# model = load_model('../models/deep_combined_model.0106-0.00.hdf5')
 history = model.fit_generator(combined_generator(imgen_train, X_num_tr),
                               samples_per_epoch=50*891,
                               nb_epoch=10,
@@ -177,14 +175,14 @@ yPred_proba = model.predict([X_img_te, test])
 
 yPred = pd.DataFrame(yPred_proba,index=index,columns=leaf99.LABELS)
 
-fp = open('../submissions/submission_nn_11_2-1.csv','w')
+fp = open('../submissions/submission_nn_11_2-5.csv','w')
 fp.write(yPred.to_csv())
 
 yPred_r = (yPred_proba >= np.vstack([np.max(yPred_proba, axis=1)]*yPred_proba.shape[1]).T).astype(float)
 
 yPred = pd.DataFrame(yPred_r,index=index,columns=leaf99.LABELS)
 
-fp = open('../submissions/submission_nn_11_2-1_ceil.csv','w')
+fp = open('../submissions/submission_nn_11_2-5_ceil.csv','w')
 fp.write(yPred.to_csv())
 
 # plt.plot(history.history['val_loss'],'o-')

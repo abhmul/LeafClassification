@@ -1,6 +1,8 @@
 from __future__ import print_function
 
 import matplotlib.pyplot as plt
+import numpy as np
+
 from keras import backend as K
 
 ## Keras Libraries for Neural Networks
@@ -12,6 +14,8 @@ from math import sqrt
 
 
 import leaf99
+
+NUM_LEAVES = 50
 
 # Function by gcalmettes from http://stackoverflow.com/questions/11159436/multiple-figures-in-a-single-window
 def plot_figures(figures, nrows = 1, ncols=1):
@@ -64,18 +68,17 @@ print(convouts)
 # Load the data
 (X_num_tr, X_img_tr, y_tr), (X_num_val, X_img_val, y_val) = leaf99.load_train_data()
 
-# Pick a random image to visualize
-img_to_visualize = randint(0, len(X_img_val) - 1)
+# Pick random images to visualize
+
+imgs_to_visualize = np.random.choice(np.arange(0, len(X_img_val)), NUM_LEAVES)
 
 # Use a theano function to extract the conv layer data
 convout_f = K.function([model.layers[0].input, K.learning_phase()], [layer.output for layer in convouts])
-convolutions = convout_f([X_img_val[img_to_visualize: img_to_visualize+1], 0])
+convolutions = convout_f([X_img_val[imgs_to_visualize], 0])
+predictions = model.predict([X_img_val[imgs_to_visualize], X_num_val[imgs_to_visualize]])
+
 
 imshow = plt.imshow #alias
-# Show the original image
-plt.title("Image used: #%d (digit=%d)" % (img_to_visualize, y_val[img_to_visualize]))
-imshow(X_img_val[img_to_visualize][0])
-plt.show()
 
 # Show how many filters we're using per layer
 for i, conv in enumerate(convolutions):
@@ -84,8 +87,34 @@ for i, conv in enumerate(convolutions):
         str(conv.shape),
         conv.shape[1]))
 
-# Actually plot the filter images
-for i, conv in enumerate(convolutions):
-    print("Visualizing Convolutions Layer %d" % i)
-    fig_dict = {'flt{0}'.format(i): convolution for i, convolution in enumerate(conv[0])}
-    plot_figures(fig_dict, *get_dim(len(fig_dict)))
+for ind, img_to_visualize in enumerate(imgs_to_visualize):
+
+    # Get top 3
+    # print(predictions.shape)
+    top3_ind = predictions[ind].argsort()[-3:]
+    # print(top3_ind)
+
+    top3_species = np.array(leaf99.LABELS)[top3_ind]
+    top3_preds = predictions[ind][top3_ind]
+
+    actual = leaf99.LABELS[y_val[img_to_visualize]]
+
+    print("Top 3 Predicitons:")
+    for i in xrange(2, -1, -1):
+        print("\t%s: %s" % (top3_species[i], top3_preds[i]))
+    print("\nActual: %s" % actual)
+
+    # Show the original image
+    plt.title("Image used: #%d (digit=%d)" % (img_to_visualize, y_val[img_to_visualize]))
+    imshow(X_img_val[img_to_visualize][0], cmap='gray')
+    plt.show()
+
+    # Actually plot the filter images
+    for i, convs in enumerate(convolutions):
+        conv = convs[ind]
+        # print(conv.shape)
+        print("Visualizing Convolutions Layer %d" % i)
+        fig_dict = {'flt{0}'.format(i): convolution for i, convolution in enumerate(conv)}
+        plot_figures(fig_dict, *get_dim(len(fig_dict)))
+
+
