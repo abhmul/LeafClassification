@@ -3,19 +3,19 @@ from __future__ import print_function
 import matplotlib.pyplot as plt
 import numpy as np
 
-from keras import backend as K
-
 ## Keras Libraries for Neural Networks
 
+from keras import backend as K
 from keras.models import load_model
 from keras.layers import MaxPooling2D
-from random import randint
 from math import sqrt
 
 
 import leaf99
 
 NUM_LEAVES = 50
+# model1_fn = 'combined_model2.02-0.01.hdf5'
+# model2_fn = '3combined_weights.06-0.00.hdf5'
 
 # Function by gcalmettes from http://stackoverflow.com/questions/11159436/multiple-figures-in-a-single-window
 def plot_figures(figures, nrows = 1, ncols=1):
@@ -57,7 +57,8 @@ def get_dim(num):
         return (int(s)+1, int(s)+1)
 
 # Load my best model
-model = load_model('../models/3combined_weights.06-0.00.hdf5')   # The filename is not aptly named. This is an actual keras model
+# model = load_model('../models/' + model1_fn)   # The filename is not aptly named. This is an actual keras model
+model = load_model('weights.06-0.00.hdf5')
 
 # Get the convolutional layers
 convouts = [layer for layer in model.layers if isinstance(layer, MaxPooling2D)]
