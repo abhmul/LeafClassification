@@ -20,6 +20,8 @@ np.random.seed(7)
 split_random_state = 4567
 kfold = True
 n_folds = 5
+augment = True
+nbr_aug = 10
 
 kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state)
 
@@ -84,13 +86,19 @@ for i in range(n_folds):
     model = load_model(best_model_file)
     print('Best Model loaded!')
 
-    if yPred_proba is None:
-        yPred_proba = model.predict([X_img_te, X_num_te])
-    else:
-        yPred_proba += model.predict([X_img_te, X_num_te])
+    for j in range(nbr_aug):
+
+        imgen_te = imgen.flow(X_num_te, shuffle=False)
+
+        if yPred_proba is None:
+            yPred_proba = model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
+                                                  X_num_te.shape[0])
+        else:
+            yPred_proba += model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
+                                                   X_num_te.shape[0])
 
 
-yPred_proba /= float(n_folds)
+yPred_proba /= float(n_folds * nbr_aug)
 
 print('Writing submission...')
 ## Converting the test predictions in a dataframe as depicted by sample submission

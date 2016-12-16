@@ -102,7 +102,7 @@ def best_combined_model():
     return model
 
 
-def combined_generator(imgen, X):
+def combined_generator(imgen, X, test=False):
     """
     A generator to train our keras neural network. It
     takes the image augmenter generator and the array
@@ -111,10 +111,16 @@ def combined_generator(imgen, X):
     """
     while True:
         for i in range(X.shape[0]):
-            # Get the image batch and labels
-            batch_img, batch_y = next(imgen)
+            if test:
+                batch_img = next(imgen)
+            else:
+                # Get the image batch and labels
+                batch_img, batch_y = next(imgen)
             # This is where that change to the source code we
             # made will come in handy. We can now access the indicies
             # of the images that imgen gave us.
             x = X[imgen.index_array]
-            yield [batch_img, x], batch_y
+            if test:
+                yield [batch_img, x]
+            else:
+                yield [batch_img, x], batch_y
