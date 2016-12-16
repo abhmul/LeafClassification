@@ -66,7 +66,7 @@ for i, (train_index, test_index) in enumerate(kf):
     print('Training model...')
     histories.append(model.fit_generator(combined_generator(fold_imgen, X_num_tr_fold),
                                          samples_per_epoch=X_num_tr_fold.shape[0],
-                                         nb_epoch=1,
+                                         nb_epoch=100,
                                          validation_data=([X_img_val_fold, X_num_val_fold], y_val_cat_fold),
                                          nb_val_samples=X_num_val_fold.shape[0],
                                          verbose=1,
