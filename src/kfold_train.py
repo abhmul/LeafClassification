@@ -62,7 +62,7 @@ for i, (train_index, test_index) in enumerate(kf):
     print('Model created!')
 
     # autosave best Model
-    best_model_file = "../models/leafnet_v1_fold{}.h5".format(i+1)
+    best_model_file = "../models/leafnet_v1.1_fold{}.h5".format(i+1)
     best_model = ModelCheckpoint(best_model_file, monitor='val_loss', verbose=1, save_best_only=True)
 
     print('Training model...')
@@ -81,7 +81,7 @@ yPred_proba = None
 ID, X_num_te, X_img_te = leaf99.load_test_data()
 for i in range(n_folds):
 
-    best_model_file = "../models/leafnet_v1_fold{}.h5".format(i + 1)
+    best_model_file = "../models/leafnet_v1.1_fold{}.h5".format(i + 1)
     print('Loading the best model fold {}/{}...'.format(i+1, n_folds))
     model = load_model(best_model_file)
     print('Best Model loaded!')
