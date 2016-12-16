@@ -15,6 +15,9 @@ from sklearn.cross_validation import train_test_split
 # Keras stuff
 from keras.utils.np_utils import to_categorical
 from keras.preprocessing.image import img_to_array, load_img
+from keras.backend import image_dim_ordering
+
+
 
 # A large amount of the data loading code is based on najeebkhan's kernel
 # Check it out at https://www.kaggle.com/najeebkhan/leaf-classification/neural-network-through-keras
@@ -74,19 +77,21 @@ def load_image_data(ids, max_dim=96, center=True):
     the output array, otherwise it will be placed at the top-left corner.
     """
     # Initialize the output array
-    # NOTE: Theano users comment line below and
-    X = np.empty((len(ids), max_dim, max_dim, 1))
-    # X = np.empty((len(ids), 1, max_dim, max_dim)) # uncomment this
+    if image_dim_ordering() == 'tf':
+        X = np.empty((len(ids), max_dim, max_dim, 1))
+    elif image_dim_ordering() == 'th':
+        X = np.empty((len(ids), 1, max_dim, max_dim))
     for i, idee in enumerate(ids):
         # Turn the image into an array
         x = resize_img(load_img(os.path.join(root, 'images', str(idee) + '.jpg'), grayscale=True), max_dim=max_dim)
         x = img_to_array(x)
         # Get the corners of the bounding box for the image
-        # NOTE: Theano users comment the two lines below and
-        length = x.shape[0]
-        width = x.shape[1]
-        # length = x.shape[1] # uncomment this
-        # width = x.shape[2] # uncomment this
+        if image_dim_ordering() == 'tf':
+            length = x.shape[0]
+            width = x.shape[1]
+        elif image_dim_ordering() == 'th':
+            length = x.shape[1]
+            width = x.shape[2]
         if center:
             h1 = int((max_dim - length) / 2)
             h2 = h1 + length
@@ -96,9 +101,10 @@ def load_image_data(ids, max_dim=96, center=True):
             h1, w1 = 0, 0
             h2, w2 = (length, width)
         # Insert into image matrix
-        # NOTE: Theano users comment line below and
-        X[i, h1:h2, w1:w2, 0:1] = x
-        # X[i, 0:1, h1:h2, w1:w2] = x  # uncomment this
+        if image_dim_ordering() == 'tf':
+            X[i, h1:h2, w1:w2, 0:1] = x
+        elif image_dim_ordering() == 'th':
+            X[i, 0:1, h1:h2, w1:w2] = x
     # Scale the array values so they are between 0 and 1
     return np.around(X / 255.0)
 
@@ -376,9 +382,10 @@ for img_count, img_to_visualize in enumerate(imgs_to_visualize):
 
     # Show the original image
     plt.title("Image used: #%d (digit=%d)" % (img_to_visualize, y_val[img_to_visualize]))
-    # For Theano users comment the line below and
-    imshow(X_img_val[img_to_visualize][:, :, 0], cmap='gray')
-    # imshow(X_img_val[img_to_visualize][0], cmap='gray') # uncomment this
+    if image_dim_ordering() == 'tf':
+        imshow(X_img_val[img_to_visualize][:, :, 0], cmap='gray')
+    elif image_dim_ordering() == 'th':
+        imshow(X_img_val[img_to_visualize][0], cmap='gray')
     plt.tight_layout()
     plt.show()
 
@@ -387,7 +394,8 @@ for img_count, img_to_visualize in enumerate(imgs_to_visualize):
         conv_img_filt = conv_imgs_filt[img_count]
         print("Visualizing Convolutions Layer %d" % i)
         # Get it ready for the plot_figures function
-        # For Theano users comment the line below and
-        fig_dict = {'flt{0}'.format(i): conv_img_filt[:, :, i] for i in range(conv_img_filt.shape[-1])}
-        # fig_dict = {'flt{0}'.format(i): conv_img_filt[i] for i in range(conv_img_filt.shape[-1])} # uncomment this
+        if image_dim_ordering() == 'tf':
+            fig_dict = {'flt{0}'.format(i): conv_img_filt[:, :, i] for i in range(conv_img_filt.shape[-1])}
+        elif image_dim_ordering() == 'th':
+            fig_dict = {'flt{0}'.format(i): conv_img_filt[i] for i in range(conv_img_filt.shape[-1])}
         plot_figures(fig_dict, *get_dim(len(fig_dict)))

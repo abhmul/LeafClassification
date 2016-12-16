@@ -32,15 +32,13 @@ For basic neural network architectures we can use Keras's Sequential API, but si
 
 CELL 4
 
-And now we create our submission. I managed to get a 0.00520 LB score with this setup after running for 100 epochs (though the best model occurred at the 89th epoch for me). It could definitely be improved with some kfold validation, but I'll leave the implementation up to the reader.
-
-NOTE: The LB score might vary, there seems to be some randomness still in the script even though I fixed the seed. 
+And now we create our submission. From the last version's submission created from running this on Kaggle I got a 0.01672 LB, but I had managed to get a 0.00520 LB score with this exact same code after running for 100 epochs (though the best model occurred at the 89th epoch for me) on an AWS p2.xlarge instance. I did set the random seeds but there is still randomness somewhere. This variance in the results could definitely be improved upon with some k-fold validation, but I'll leave the implementation up to the reader.
 
 CELL 5
 
 # Visualization
 
-Great! So we've got our combined model working that incorporates both the raw binary images of the leaves and the pre-extracted features. But you might ask now, what is the neural network actually learning? One easy way to tell what the convolutional portion of the neural net is learning is through visualization of the hidden layers. First, we'll pick a few random leaves from our validation set and we'll pass each one through the neural network. As the leaf goes through, the convolutional neural net will apply many filters each looking for something in the image. Once the filter is applied we'll grab the new image of the leaf and the white portions of the image will tell us where the filter activated and the black will tell us where it didn't. If you take a look at our architecture for the neural net, you'll notice we created 8 filters for the first convolutional layer and 32 for the second one. Thus, for each leaf image we should look a set of 8 and another set of 32 new images.
+Great! So we've got our combined model working that incorporates both the raw binary images of the leaves and the pre-extracted features. But you might ask now, what is the neural network actually learning? One easy way to tell what the convolutional portion of the neural net is learning is through visualization of the hidden layers. First, we'll pick a few random leaves from our validation set and we'll pass each one through the neural network. As the leaf goes through, the convolutional neural net will apply many filters each looking for something in the image. Once the filter is applied we'll grab the new image of the leaf and the white portions of the image will tell us where the filter activated and the black will tell us where it didn't. If you take a look at our architecture for the neural net, you'll notice we created 8 filters for the first convolutional layer and 32 for the second one. Thus, for each leaf image we should get a set of 8 and another set of 32 new images.
 
 To do this in Keras we'll build a Keras function as outlined in the [Keras FAQ](https://keras.io/getting-started/faq/#how-can-i-visualize-the-output-of-an-intermediate-layer).
 
@@ -48,7 +46,7 @@ CELL 6
 
 # Conclusion
 
-For the first convolution layer we can sorta tell that most of the filters are doing edge detection on the leaf. That actually makes a lot of sense since pretty much all of the species specific information of a leaf is stored in the shape of its edge. The second convolutional layer, though, is much harder to understand. some of it still looks like edge detection but there's also a lot of wierd stuff going on that we can't really understand. This is actually pretty common with convnets. The first few layers will do really simple stuff like edge and shape detection, but the deeper you go the more abstract it gets. Judging by our LB score though, I think we can assume its doing something constructive.
+For the first convolutional layer we can sort of tell that most of the filters are doing edge detection on the leaf. That actually makes a lot of sense since pretty much all of the species specific information of a leaf is stored in the shape of its edge. The second convolutional layer is also mainly edge detection along with some point and edge shape detection I noticed with some leaves that have particularly special shapes. This is actually pretty common with convnets. The first few layers will do really simple stuff like edge and shape detection, but the deeper you go the more abstract it gets. Since we don't really have enough data to go that deep most of our filters look pretty tame. Judging by our LB score though, I think we can assume what it's doing is fairly constructive.
 
 Well, that's all! If you've made it this far that means you've read my first kernel, and I hope it helps if you're stuck and don't know how to improve your score. In addition to questions, I'm very open to any feedback both in general about kernel writing and specifically about this kernel.
 
