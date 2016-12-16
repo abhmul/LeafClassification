@@ -99,9 +99,3 @@ now = datetime.datetime.now()
 fp = open('../submissions/submission_{}fold_{}.csv'.format(n_folds, str(now.strftime("%Y-%m-%d-%H-%M"))), 'w')
 fp.write(yPred.to_csv())
 print('Finished writing submission!')
-
-
-
-
-
-
