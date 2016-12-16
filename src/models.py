@@ -111,11 +111,8 @@ def combined_generator(imgen, X, test=False):
     """
     while True:
         for i in range(X.shape[0]):
-            if test:
-                batch_img = next(imgen)
-            else:
-                # Get the image batch and labels
-                batch_img, batch_y = next(imgen)
+            # Get the image batch and labels
+            batch_img, batch_y = next(imgen)
             # This is where that change to the source code we
             # made will come in handy. We can now access the indicies
             # of the images that imgen gave us.

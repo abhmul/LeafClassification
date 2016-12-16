@@ -68,7 +68,7 @@ for i, (train_index, test_index) in enumerate(kf):
     print('Training model...')
     histories.append(model.fit_generator(combined_generator(fold_imgen, X_num_tr_fold),
                                          samples_per_epoch=X_num_tr_fold.shape[0],
-                                         nb_epoch=100,
+                                         nb_epoch=1,
                                          validation_data=([X_img_val_fold, X_num_val_fold], y_val_cat_fold),
                                          nb_val_samples=X_num_val_fold.shape[0],
                                          verbose=1,
@@ -88,7 +88,7 @@ for i in range(n_folds):
 
     for j in range(nbr_aug):
 
-        imgen_te = imgen.flow(X_img_te, shuffle=False)
+        imgen_te = imgen.flow(X_img_te, y=np.zeros(X_img_te.shape[0:1]), shuffle=False)
 
         if yPred_proba is None:
             yPred_proba = model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
