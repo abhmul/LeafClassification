@@ -88,7 +88,7 @@ for i in range(n_folds):
 
     for j in range(nbr_aug):
 
-        imgen_te = imgen.flow(X_num_te, shuffle=False)
+        imgen_te = imgen.flow(X_img_te, shuffle=False)
 
         if yPred_proba is None:
             yPred_proba = model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
