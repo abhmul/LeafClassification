@@ -73,7 +73,7 @@ print(convouts)
 
 imgs_to_visualize = np.random.choice(np.arange(0, len(X_img_val)), NUM_LEAVES)
 
-# Use a theano function to extract the conv layer data
+# Use a keras function to extract the conv layer data
 convout_f = K.function([model.layers[0].input, K.learning_phase()], [layer.output for layer in convouts])
 convolutions = convout_f([X_img_val[imgs_to_visualize], 0])
 predictions = model.predict([X_img_val[imgs_to_visualize], X_num_val[imgs_to_visualize]])

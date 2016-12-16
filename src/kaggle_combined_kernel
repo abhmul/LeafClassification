@@ -1,0 +1,55 @@
+CELL 1
+
+# The Idea
+
+I started this competition by simply feeding the pre-extracted features into a multi-layer perceptron with one hidden layer and getting surprisingly good results, but I still had all this image data I wasn't using it. My immediate thought then was to simply combine a convolutional neural network on the images with the pre-extracted features MLP and train the entire model end to end. Keras's functional API gives us a really easy way to do this. Below, I'll outline the process of getting this model working along, point out some nice resources to learning about convolutional nets, and do some visualization of what the neural network is actually doing. But before we do that, let's just get all the data loading out of the way.
+
+CELL 2
+
+# Data Augmentation
+
+One trick we are going to use to improve the robustness of our model is image data augmentation, allowing it to perform better on the test set. 
+
+If you take a look at [Rhyando Anggoro Adi's post](https://www.kaggle.com/c/leaf-classification/forums/t/24764/create-gif-based-on-leaf-class) on the forum containing a GIF of each training sample for each species, you'll notice that for a given species most of the leaves look very similar except that the leaf is rotated slightly or is slightly larger in scale. We'll try to emphasize this in our dataset by randomly performing a rotation or zoom transformation to each leaf image as the image is passed to the neural network. Below is the code for the data augmentation image generator along with a slight change to the source code to help us out later on.
+
+CELL 3
+
+# Combining the Image CNN with the Pre-Extracted Features MLP
+
+Now that we've gotten all the data preparation work out of the way, we can actually construct our model.
+
+## Wait!! I don't know what a convolutional neural network is!
+
+No worries! I've linked below a few great places to get an overview of convnets. You can find more by just googling "convolutional neural network explained".
+
+* http://cs231n.github.io/convolutional-networks/
+* https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
+* http://neuralnetworksanddeeplearning.com/chap6.html
+
+## Keras Functional API
+
+For basic neural network architectures we can use Keras's Sequential API, but since we need to build a model that takes two different inputs (image and pre-extracted features) in two different locations in the model, we won't be able to use the Sequential API. Instead, we'll be using the Functional API. This API is just as straightforward, but instead of having a model we add layers to, we'll instead be passing an array through a layer, and passing that output through another layer, and so on. You can think of each layer as a function and the array we give it as its argument. Click [here](https://keras.io/getting-started/functional-api-guide/) for more info about the functional API.
+
+CELL 4
+
+And now we create our submission. I managed to get a 0.00520 LB score with this setup after running for 100 epochs (though the best model occurred at the 89th epoch for me). It could definitely be improved with some kfold validation, but I'll leave the implementation up to the reader.
+
+NOTE: The LB score might vary, there seems to be some randomness still in the script even though I fixed the seed. 
+
+CELL 5
+
+# Visualization
+
+Great! So we've got our combined model working that incorporates both the raw binary images of the leaves and the pre-extracted features. But you might ask now, what is the neural network actually learning? One easy way to tell what the convolutional portion of the neural net is learning is through visualization of the hidden layers. First, we'll pick a few random leaves from our validation set and we'll pass each one through the neural network. As the leaf goes through, the convolutional neural net will apply many filters each looking for something in the image. Once the filter is applied we'll grab the new image of the leaf and the white portions of the image will tell us where the filter activated and the black will tell us where it didn't. If you take a look at our architecture for the neural net, you'll notice we created 8 filters for the first convolutional layer and 32 for the second one. Thus, for each leaf image we should look a set of 8 and another set of 32 new images.
+
+To do this in Keras we'll build a Keras function as outlined in the [Keras FAQ](https://keras.io/getting-started/faq/#how-can-i-visualize-the-output-of-an-intermediate-layer).
+
+CELL 6
+
+# Conclusion
+
+For the first convolution layer we can sorta tell that most of the filters are doing edge detection on the leaf. That actually makes a lot of sense since pretty much all of the species specific information of a leaf is stored in the shape of its edge. The second convolutional layer, though, is much harder to understand. some of it still looks like edge detection but there's also a lot of wierd stuff going on that we can't really understand. This is actually pretty common with convnets. The first few layers will do really simple stuff like edge and shape detection, but the deeper you go the more abstract it gets. Judging by our LB score though, I think we can assume its doing something constructive.
+
+Well, that's all! If you've made it this far that means you've read my first kernel, and I hope it helps if you're stuck and don't know how to improve your score. In addition to questions, I'm very open to any feedback both in general about kernel writing and specifically about this kernel.
+
+## Thank you for reading!
