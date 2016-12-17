@@ -18,12 +18,12 @@ from models import best_combined_model, combined_generator
 
 np.random.seed(7)
 kfold = True
-n_folds = 6
+n_folds = 10
 augment = False
 nbr_aug = 10 if augment else 1
 stratified = True
-top_k = 4
-threshold = .005
+top_k = 5
+threshold = .002
 
 
 
