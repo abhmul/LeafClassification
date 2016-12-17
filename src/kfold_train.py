@@ -129,7 +129,7 @@ for i in k_best:
                 yPred_proba += model.predict_generator([X_img_te, X_num_te])
 
 
-yPred_proba /= float(n_folds * nbr_aug)
+yPred_proba /= float(top_k * nbr_aug)
 
 print('Writing submission...')
 ## Converting the test predictions in a dataframe as depicted by sample submission
