@@ -42,7 +42,7 @@ while True:
 
     print('Initializing Data Augmenter...')
     imgen = ImageDataGenerator2(
-        rotation_range=10,
+        rotation_range=100,
         zoom_range=0.2,
         horizontal_flip=True,
         vertical_flip=True,
@@ -79,7 +79,7 @@ while True:
         print('Training model...')
         history = model.fit_generator(combined_generator(fold_imgen, X_num_tr_fold),
                                              samples_per_epoch=X_num_tr_fold.shape[0],
-                                             nb_epoch=100,
+                                             nb_epoch=300,
                                              validation_data=([X_img_val_fold, X_num_val_fold], y_val_cat_fold),
                                              nb_val_samples=X_num_val_fold.shape[0],
                                              verbose=0,
