@@ -135,6 +135,6 @@ print('Writing submission...')
 ## Converting the test predictions in a dataframe as depicted by sample submission
 yPred = pd.DataFrame(yPred_proba, index=ID, columns=leaf99.LABELS)
 now = datetime.datetime.now()
-fp = open('../submissions/submission_{}fold_{}.csv'.format(n_folds, str(now.strftime("%Y-%m-%d-%H-%M"))), 'w')
+fp = open('../submissions/submission_{}fold_top{}_{}.csv'.format(n_folds, top_k, str(now.strftime("%Y-%m-%d-%H-%M"))), 'w')
 fp.write(yPred.to_csv())
 print('Finished writing submission!')
