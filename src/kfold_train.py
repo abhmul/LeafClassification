@@ -24,6 +24,7 @@ nbr_aug = 10 if augment else 1
 stratified = True
 top_k = 5
 threshold = .002
+model_fn = "../models/leafnet_v1.2_fold{}.h5"
 
 
 
@@ -73,7 +74,7 @@ while True:
         print('Model created!')
 
         # autosave best Model
-        best_model_file = "../models/leafnet_v1.1_fold{}.h5".format(i+1)
+        best_model_file = model_fn.format(i+1)
         best_model = ModelCheckpoint(best_model_file, monitor='val_loss', verbose=1, save_best_only=True)
 
         print('Training model...')
@@ -107,7 +108,7 @@ yPred_proba = None
 ID, X_num_te, X_img_te = leaf99.load_test_data()
 for i in k_best:
 
-    best_model_file = "../models/leafnet_v1.1_fold{}.h5".format(i + 1)
+    best_model_file = model_fn.format(i + 1)
     print('Loading the best model fold {}/{}...'.format(i+1, n_folds))
     model = load_model(best_model_file)
     print('Best Model loaded!')
