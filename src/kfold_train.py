@@ -23,7 +23,7 @@ augment = False
 nbr_aug = 10 if augment else 1
 stratified = True
 top_k = 4
-threshold = .01
+threshold = .005
 
 
 
@@ -120,13 +120,13 @@ for i in k_best:
                 yPred_proba = model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
                                                       X_num_te.shape[0])
             else:
-                yPred_proba = model.predict_generator([X_img_te, X_num_te])
+                yPred_proba = model.predict([X_img_te, X_num_te])
         else:
             if augment:
                 yPred_proba += model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
                                                        X_num_te.shape[0])
             else:
-                yPred_proba += model.predict_generator([X_img_te, X_num_te])
+                yPred_proba += model.predict([X_img_te, X_num_te])
 
 
 yPred_proba /= float(top_k * nbr_aug)
@@ -135,6 +135,7 @@ print('Writing submission...')
 ## Converting the test predictions in a dataframe as depicted by sample submission
 yPred = pd.DataFrame(yPred_proba, index=ID, columns=leaf99.LABELS)
 now = datetime.datetime.now()
-fp = open('../submissions/submission_{}fold_top{}_{}.csv'.format(n_folds, top_k, str(now.strftime("%Y-%m-%d-%H-%M"))), 'w')
+now_time = str(now.strftime("%Y-%m-%d-%H-%M"))
+fp = open('../submissions/submission_{}fold_top{}_{}.csv'.format(n_folds, top_k, now_time), 'w')
 fp.write(yPred.to_csv())
-print('Finished writing submission!')
+print('Finished writing submission at {}!'.format(now_time))
