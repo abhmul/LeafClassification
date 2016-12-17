@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.cross_validation import train_test_split
-from sklearn.cross_validation import KFold
+from sklearn.cross_validation import KFold, StratifiedKFold
 
 # Keras stuff
 from keras.preprocessing.image import img_to_array, load_img
@@ -117,13 +117,16 @@ def load_train_data(split=None, random_state=None):
     return (X_num_tr, X_img_tr, y_tr), (X_num_val, X_img_val, y_val)
 
 
-def load_train_data_kfold(n_folds=None, random_state=None):
+def load_train_data_kfold(n_folds=3, random_state=None, stratified=False):
 
     # Load the pre-extracted features
     ID, X_num_tr, y = load_numeric_training()
     # Load the image data
     X_img_tr = load_image_data(ID)
-    kf = KFold(len(ID), n_folds=n_folds, shuffle=True, random_state=random_state)
+    if stratified:
+        kf = StratifiedKFold(y, n_folds=n_folds, shuffle=True, random_state=random_state)
+    else:
+        kf = KFold(len(ID), n_folds=n_folds, shuffle=True, random_state=random_state)
     return kf, (X_num_tr, X_img_tr, y)
 
 

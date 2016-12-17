@@ -22,8 +22,9 @@ kfold = True
 n_folds = 10
 augment = True
 nbr_aug = 10
+stratified = True
 
-kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state)
+kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state, stratified=True)
 
 y_tr_cat = to_categorical(y_tr)
 assert(y_tr_cat.shape[1] == len(leaf99.LABELS))
