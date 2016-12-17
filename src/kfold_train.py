@@ -19,7 +19,7 @@ from models import best_combined_model, combined_generator
 np.random.seed(7)
 split_random_state = 4567
 kfold = True
-n_folds = 10
+n_folds = 6
 augment = True
 nbr_aug = 10
 stratified = True
