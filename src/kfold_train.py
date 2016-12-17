@@ -90,7 +90,7 @@ while True:
 
     # See how good the top k splits were
     k_best = sorted(range(n_folds), key=lambda i: min_val_loss[i])[:top_k]
-    k_best_avg = sum(k_best) / top_k
+    k_best_avg = sum([min_val_loss[i] for i in k_best]) / top_k
     print('Got {} best avg of {} and needed {}'.format(top_k, k_best_avg, threshold))
     if k_best_avg < threshold:
         print('Done Training!')
