@@ -17,7 +17,6 @@ from keras_utils import ImageDataGenerator2
 from models import best_combined_model, combined_generator
 
 np.random.seed(7)
-split_random_state = 4567
 kfold = True
 n_folds = 6
 augment = False
@@ -26,16 +25,20 @@ stratified = True
 top_k = 4
 threshold = .01
 
-kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state, stratified=stratified)
-
-y_tr_cat = to_categorical(y_tr)
-assert(y_tr_cat.shape[1] == len(leaf99.LABELS))
 
 
 k_best = range(top_k)
 imgen = None
 
 while True:
+
+    print('Splitting into {} folds'.format(n_folds))
+    split_random_state = np.random.randint(1, 10000)
+    kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state,
+                                                                  stratified=stratified)
+
+    y_tr_cat = to_categorical(y_tr)
+    assert (y_tr_cat.shape[1] == len(leaf99.LABELS))
 
     print('Initializing Data Augmenter...')
     imgen = ImageDataGenerator2(
