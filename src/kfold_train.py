@@ -20,11 +20,11 @@ np.random.seed(7)
 split_random_state = 4567
 kfold = True
 n_folds = 6
-augment = True
-nbr_aug = 10
+augment = False
+nbr_aug = 10 if augment else 1
 stratified = True
 
-kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state, stratified=True)
+kf, (X_num_tr, X_img_tr, y_tr) = leaf99.load_train_data_kfold(n_folds=n_folds, random_state=split_random_state, stratified=stratified)
 
 y_tr_cat = to_categorical(y_tr)
 assert(y_tr_cat.shape[1] == len(leaf99.LABELS))
@@ -86,17 +86,22 @@ for i in range(n_folds):
     print('Loading the best model fold {}/{}...'.format(i+1, n_folds))
     model = load_model(best_model_file)
     print('Best Model loaded!')
-
     for j in range(nbr_aug):
 
         imgen_te = imgen.flow(X_img_te, y=np.zeros(X_img_te.shape[0:1]), shuffle=False)
 
         if yPred_proba is None:
-            yPred_proba = model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
-                                                  X_num_te.shape[0])
+            if augment:
+                yPred_proba = model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
+                                                      X_num_te.shape[0])
+            else:
+                yPred_proba = model.predict_generator([X_img_te, X_num_te])
         else:
-            yPred_proba += model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
-                                                   X_num_te.shape[0])
+            if augment:
+                yPred_proba += model.predict_generator(combined_generator(imgen_te, X_num_te, test=True),
+                                                       X_num_te.shape[0])
+            else:
+                yPred_proba += model.predict_generator([X_img_te, X_num_te])
 
 
 yPred_proba /= float(n_folds * nbr_aug)
