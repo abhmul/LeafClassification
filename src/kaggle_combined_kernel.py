@@ -193,7 +193,7 @@ imgen = ImageDataGenerator2(
     horizontal_flip=True,
     vertical_flip=True,
     fill_mode='nearest')
-imgen_train = imgen.flow(X_img_tr, y_tr_cat, seed=np.random.randint(1, 10000, 1))
+imgen_train = imgen.flow(X_img_tr, y_tr_cat, seed=np.random.randint(1, 10000))
 print('Finished making data augmenter...')
 
 ### CELL 3 ###
@@ -272,7 +272,7 @@ history = model.fit_generator(combined_generator(imgen_train, X_num_tr),
                               nb_epoch=90,
                               validation_data=([X_img_val, X_num_val], y_val_cat),
                               nb_val_samples=X_num_val.shape[0],
-                              verbose=0,
+                              verbose=1,
                               callbacks=[best_model])
 
 print('Loading the best model...')
