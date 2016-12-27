@@ -18,9 +18,9 @@ from keras.preprocessing.image import img_to_array, load_img
 
 # A large amount of the data loading code is based on najeebkhan's kernel
 # Check it out at https://www.kaggle.com/najeebkhan/leaf-classification/neural-network-through-keras
-root = '../input'
-np.random.seed(7)
-split_random_state = 42
+root = '../'
+np.random.seed(42)
+split_random_state = 2016
 split = .9
 
 
@@ -193,7 +193,7 @@ imgen = ImageDataGenerator2(
     horizontal_flip=True,
     vertical_flip=True,
     fill_mode='nearest')
-imgen_train = imgen.flow(X_img_tr, y_tr_cat, seed=743)
+imgen_train = imgen.flow(X_img_tr, y_tr_cat, seed=np.random.randint(1, 10000, 1))
 print('Finished making data augmenter...')
 
 ### CELL 3 ###
