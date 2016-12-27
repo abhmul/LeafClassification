@@ -188,7 +188,7 @@ class NumpyArrayIterator2(NumpyArrayIterator):
 
 print('Creating Data Augmenter...')
 imgen = ImageDataGenerator2(
-    rotation_range=10,
+    rotation_range=90,
     zoom_range=0.2,
     horizontal_flip=True,
     vertical_flip=True,
