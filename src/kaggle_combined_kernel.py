@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
-from sklearn.cross_validation import StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedShuffleSplit
 
 # If you want to use Theano, all you need to change
 # is the dim ordering whenever you are dealing with
@@ -116,8 +116,8 @@ def load_train_data(split=split, random_state=None):
     # Load the image data
     X_img_tr = load_image_data(ID)
     # Split them into validation and cross-validation
-    ind_split = StratifiedShuffleSplit(y, n_iter=1, test_size=1-split, random_state=random_state)
-    train_ind, test_ind = next(ind_split)
+    sss = StratifiedShuffleSplit(n_splits=1, train_size=split, random_state=random_state)
+    train_ind, test_ind = next(sss.split(X_num_tr, y))
     X_num_val, X_img_val, y_val = X_num_tr[test_ind], X_img_tr[test_ind], y[test_ind]
     X_num_tr, X_img_tr, y_tr = X_num_tr[train_ind], X_img_tr[train_ind], y[train_ind]
     return (X_num_tr, X_img_tr, y_tr), (X_num_val, X_img_val, y_val)
