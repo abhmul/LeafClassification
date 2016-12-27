@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
-from sklearn.cross_validation import train_test_split
+from sklearn.cross_validation import StratifiedShuffleSplit
 
 # If you want to use Theano, all you need to change
 # is the dim ordering whenever you are dealing with
@@ -15,15 +15,12 @@ from sklearn.cross_validation import train_test_split
 # Keras stuff
 from keras.utils.np_utils import to_categorical
 from keras.preprocessing.image import img_to_array, load_img
-from keras.backend import image_dim_ordering
-
-
 
 # A large amount of the data loading code is based on najeebkhan's kernel
 # Check it out at https://www.kaggle.com/najeebkhan/leaf-classification/neural-network-through-keras
 root = '../input'
 np.random.seed(7)
-split_random_state = 4567
+split_random_state = 42
 split = .9
 
 
@@ -77,21 +74,19 @@ def load_image_data(ids, max_dim=96, center=True):
     the output array, otherwise it will be placed at the top-left corner.
     """
     # Initialize the output array
-    if image_dim_ordering() == 'tf':
-        X = np.empty((len(ids), max_dim, max_dim, 1))
-    elif image_dim_ordering() == 'th':
-        X = np.empty((len(ids), 1, max_dim, max_dim))
+    # NOTE: Theano users comment line below and
+    X = np.empty((len(ids), max_dim, max_dim, 1))
+    # X = np.empty((len(ids), 1, max_dim, max_dim)) # uncomment this
     for i, idee in enumerate(ids):
         # Turn the image into an array
         x = resize_img(load_img(os.path.join(root, 'images', str(idee) + '.jpg'), grayscale=True), max_dim=max_dim)
         x = img_to_array(x)
         # Get the corners of the bounding box for the image
-        if image_dim_ordering() == 'tf':
-            length = x.shape[0]
-            width = x.shape[1]
-        elif image_dim_ordering() == 'th':
-            length = x.shape[1]
-            width = x.shape[2]
+        # NOTE: Theano users comment the two lines below and
+        length = x.shape[0]
+        width = x.shape[1]
+        # length = x.shape[1] # uncomment this
+        # width = x.shape[2] # uncomment this
         if center:
             h1 = int((max_dim - length) / 2)
             h2 = h1 + length
@@ -101,10 +96,9 @@ def load_image_data(ids, max_dim=96, center=True):
             h1, w1 = 0, 0
             h2, w2 = (length, width)
         # Insert into image matrix
-        if image_dim_ordering() == 'tf':
-            X[i, h1:h2, w1:w2, 0:1] = x
-        elif image_dim_ordering() == 'th':
-            X[i, 0:1, h1:h2, w1:w2] = x
+        # NOTE: Theano users comment line below and
+        X[i, h1:h2, w1:w2, 0:1] = x
+        # X[i, 0:1, h1:h2, w1:w2] = x  # uncomment this
     # Scale the array values so they are between 0 and 1
     return np.around(X / 255.0)
 
@@ -122,8 +116,12 @@ def load_train_data(split=split, random_state=None):
     # Load the image data
     X_img_tr = load_image_data(ID)
     # Split them into validation and cross-validation
-    X_num_tr, X_num_val, X_img_tr, X_img_val, y_tr, y_val = train_test_split(X_num_tr, X_img_tr, y, train_size=split, random_state=random_state)
+    ind_split = StratifiedShuffleSplit(y, n_iter=1, test_size=1-split, random_state=random_state)
+    train_ind, test_ind = next(ind_split)
+    X_num_val, X_img_val, y_val = X_num_tr[test_ind], X_img_tr[test_ind], y[test_ind]
+    X_num_tr, X_img_tr, y_tr = X_num_tr[train_ind], X_img_tr[train_ind], y[train_ind]
     return (X_num_tr, X_img_tr, y_tr), (X_num_val, X_img_val, y_val)
+
 
 def load_test_data():
     """
@@ -195,7 +193,7 @@ imgen = ImageDataGenerator2(
     horizontal_flip=True,
     vertical_flip=True,
     fill_mode='nearest')
-imgen_train = imgen.flow(X_img_tr, y_tr_cat)
+imgen_train = imgen.flow(X_img_tr, y_tr_cat, seed=743)
 print('Finished making data augmenter...')
 
 ### CELL 3 ###
@@ -302,100 +300,103 @@ yPred.tail()
 
 ### Cell 6 ###
 
-from math import sqrt
 
-import matplotlib.pyplot as plt
-from keras import backend as K
-
-NUM_LEAVES = 3
-model_fn = 'leafnet.h5'
-
-# Function by gcalmettes from http://stackoverflow.com/questions/11159436/multiple-figures-in-a-single-window
-def plot_figures(figures, nrows = 1, ncols=1, titles=False):
-    """Plot a dictionary of figures.
-
-    Parameters
-    ----------
-    figures : <title, figure> dictionary
-    ncols : number of columns of subplots wanted in the display
-    nrows : number of rows of subplots wanted in the figure
-    """
-
-    fig, axeslist = plt.subplots(ncols=ncols, nrows=nrows)
-    for ind,title in enumerate(sorted(figures.keys(), key=lambda s: int(s[3:]))):
-        axeslist.ravel()[ind].imshow(figures[title], cmap=plt.gray())
-        if titles:
-            axeslist.ravel()[ind].set_title(title)
-
-    for ind in range(nrows*ncols):
-        axeslist.ravel()[ind].set_axis_off()
-
-    if titles:
-        plt.tight_layout()
-    plt.show()
-
-
-def get_dim(num):
-    """
-    Simple function to get the dimensions of a square-ish shape for plotting
-    num images
-    """
-
-    s = sqrt(num)
-    if round(s) < s:
-        return (int(s), int(s)+1)
-    else:
-        return (int(s)+1, int(s)+1)
-
-# Load the best model
-model = load_model(model_fn)
-
-# Get the convolutional layers
-conv_layers = [layer for layer in model.layers if isinstance(layer, MaxPooling2D)]
-
-# Pick random images to visualize
-imgs_to_visualize = np.random.choice(np.arange(0, len(X_img_val)), NUM_LEAVES)
-
-# Use a keras function to extract the conv layer data
-convout_func = K.function([model.layers[0].input, K.learning_phase()], [layer.output for layer in conv_layers])
-conv_imgs_filts = convout_func([X_img_val[imgs_to_visualize], 0])
-# Also get the prediction so we know what we predicted
-predictions = model.predict([X_img_val[imgs_to_visualize], X_num_val[imgs_to_visualize]])
-
-imshow = plt.imshow #alias
-# Loop through each image disply relevant info
-for img_count, img_to_visualize in enumerate(imgs_to_visualize):
-
-    # Get top 3 predictions
-    top3_ind = predictions[img_count].argsort()[-3:]
-    top3_species = np.array(LABELS)[top3_ind]
-    top3_preds = predictions[img_count][top3_ind]
-
-    # Get the actual leaf species
-    actual = LABELS[y_val[img_to_visualize]]
-
-    # Display the top 3 predictions and the actual species
-    print("Top 3 Predicitons:")
-    for i in range(2, -1, -1):
-        print("\t%s: %s" % (top3_species[i], top3_preds[i]))
-    print("\nActual: %s" % actual)
-
-    # Show the original image
-    plt.title("Image used: #%d (digit=%d)" % (img_to_visualize, y_val[img_to_visualize]))
-    if image_dim_ordering() == 'tf':
-        imshow(X_img_val[img_to_visualize][:, :, 0], cmap='gray')
-    elif image_dim_ordering() == 'th':
-        imshow(X_img_val[img_to_visualize][0], cmap='gray')
-    plt.tight_layout()
-    plt.show()
-
-    # Plot the filter images
-    for i, conv_imgs_filt in enumerate(conv_imgs_filts):
-        conv_img_filt = conv_imgs_filt[img_count]
-        print("Visualizing Convolutions Layer %d" % i)
-        # Get it ready for the plot_figures function
-        if image_dim_ordering() == 'tf':
-            fig_dict = {'flt{0}'.format(i): conv_img_filt[:, :, i] for i in range(conv_img_filt.shape[-1])}
-        elif image_dim_ordering() == 'th':
-            fig_dict = {'flt{0}'.format(i): conv_img_filt[i] for i in range(conv_img_filt.shape[-1])}
-        plot_figures(fig_dict, *get_dim(len(fig_dict)))
+# from math import sqrt
+#
+# import matplotlib.pyplot as plt
+# from keras import backend as K
+#
+# image_dim_ordering = K.image_dim_ordering
+#
+# NUM_LEAVES = 3
+# model_fn = 'leafnet.h5'
+#
+# # Function by gcalmettes from http://stackoverflow.com/questions/11159436/multiple-figures-in-a-single-window
+# def plot_figures(figures, nrows = 1, ncols=1, titles=False):
+#     """Plot a dictionary of figures.
+#
+#     Parameters
+#     ----------
+#     figures : <title, figure> dictionary
+#     ncols : number of columns of subplots wanted in the display
+#     nrows : number of rows of subplots wanted in the figure
+#     """
+#
+#     fig, axeslist = plt.subplots(ncols=ncols, nrows=nrows)
+#     for ind,title in enumerate(sorted(figures.keys(), key=lambda s: int(s[3:]))):
+#         axeslist.ravel()[ind].imshow(figures[title], cmap=plt.gray())
+#         if titles:
+#             axeslist.ravel()[ind].set_title(title)
+#
+#     for ind in range(nrows*ncols):
+#         axeslist.ravel()[ind].set_axis_off()
+#
+#     if titles:
+#         plt.tight_layout()
+#     plt.show()
+#
+#
+# def get_dim(num):
+#     """
+#     Simple function to get the dimensions of a square-ish shape for plotting
+#     num images
+#     """
+#
+#     s = sqrt(num)
+#     if round(s) < s:
+#         return (int(s), int(s)+1)
+#     else:
+#         return (int(s)+1, int(s)+1)
+#
+# # Load the best model
+# model = load_model(model_fn)
+#
+# # Get the convolutional layers
+# conv_layers = [layer for layer in model.layers if isinstance(layer, MaxPooling2D)]
+#
+# # Pick random images to visualize
+# imgs_to_visualize = np.random.choice(np.arange(0, len(X_img_val)), NUM_LEAVES)
+#
+# # Use a keras function to extract the conv layer data
+# convout_func = K.function([model.layers[0].input, K.learning_phase()], [layer.output for layer in conv_layers])
+# conv_imgs_filts = convout_func([X_img_val[imgs_to_visualize], 0])
+# # Also get the prediction so we know what we predicted
+# predictions = model.predict([X_img_val[imgs_to_visualize], X_num_val[imgs_to_visualize]])
+#
+# imshow = plt.imshow #alias
+# # Loop through each image disply relevant info
+# for img_count, img_to_visualize in enumerate(imgs_to_visualize):
+#
+#     # Get top 3 predictions
+#     top3_ind = predictions[img_count].argsort()[-3:]
+#     top3_species = np.array(LABELS)[top3_ind]
+#     top3_preds = predictions[img_count][top3_ind]
+#
+#     # Get the actual leaf species
+#     actual = LABELS[y_val[img_to_visualize]]
+#
+#     # Display the top 3 predictions and the actual species
+#     print("Top 3 Predicitons:")
+#     for i in range(2, -1, -1):
+#         print("\t%s: %s" % (top3_species[i], top3_preds[i]))
+#     print("\nActual: %s" % actual)
+#
+#     # Show the original image
+#     plt.title("Image used: #%d (digit=%d)" % (img_to_visualize, y_val[img_to_visualize]))
+#     if image_dim_ordering() == 'tf':
+#         imshow(X_img_val[img_to_visualize][:, :, 0], cmap='gray')
+#     elif image_dim_ordering() == 'th':
+#         imshow(X_img_val[img_to_visualize][0], cmap='gray')
+#     plt.tight_layout()
+#     plt.show()
+#
+#     # Plot the filter images
+#     for i, conv_imgs_filt in enumerate(conv_imgs_filts):
+#         conv_img_filt = conv_imgs_filt[img_count]
+#         print("Visualizing Convolutions Layer %d" % i)
+#         # Get it ready for the plot_figures function
+#         if image_dim_ordering() == 'tf':
+#             fig_dict = {'flt{0}'.format(i): conv_img_filt[:, :, i] for i in range(conv_img_filt.shape[-1])}
+#         elif image_dim_ordering() == 'th':
+#             fig_dict = {'flt{0}'.format(i): conv_img_filt[i] for i in range(conv_img_filt.shape[-1])}
+#         plot_figures(fig_dict, *get_dim(len(fig_dict)))
