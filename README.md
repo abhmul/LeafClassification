@@ -9,7 +9,7 @@ To train the combined model simply run
 
 ```
 cd src
-python combined.py
+python kfold_train.py
 ```
 
 # Visualization
