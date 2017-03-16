@@ -20,3 +20,7 @@ To run the visualization script to see what the neural network is doing in the c
 cd src
 python visualization.py
 ```
+
+# JuPyter Kernel
+
+Check out [my JuPyter Kernel](https://www.kaggle.com/abhmul/leaf-classification/keras-convnet-lb-0-0052-w-visualization) outlining this solution on Kaggle!
