@@ -1,3 +1,5 @@
+## NOTE: This was writen before Keras v2 and will likely not run anymore with an updated version of Keras. Please see the JuPyter Kernel for an overview of the code in this repository
+
 # LeafClassification
 This task involves the use of binary leaf images and extracted features, including shape, margin &amp; texture, to accurately identify 99 species of plants. Leaves, due to their volume, prevalence, and unique characteristics, are an effective means of differentiating plant species.
 
